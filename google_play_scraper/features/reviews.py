@@ -162,7 +162,7 @@ def reviews_all(app_id, sleep_milliseconds=0, **kwargs):
 
 
 def reviews_from_date(app_id, source_date, sleep_milliseconds=0, **kwargs):
-    wargs.pop("continuation_token", None)
+    kwargs.pop("continuation_token", None)
     _continuation_token = None
     result = []
     no_limit = True
