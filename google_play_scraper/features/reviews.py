@@ -159,3 +159,22 @@ def reviews_all(app_id, sleep_milliseconds=0, **kwargs):
             sleep(sleep_milliseconds / 1000)
 
     return result
+
+
+def reviews_from_date(app_id, source_date, sleep_milliseconds=0, **kwargs):
+    wargs.pop("continuation_token", None)
+    _continuation_token = None
+    result = []
+    no_limit = True
+    while no_limit:
+        result_, _continuation_token = reviews(
+            app_id, continuation_token=_continuation_token, **kwargs
+        )
+        result += result_
+        if result[-1].get("at").date() < source_date:
+            no_limit = False
+        if _continuation_token.token is None:
+            break
+        if sleep_milliseconds:
+            sleep(sleep_milliseconds / 1000)
+    return result
